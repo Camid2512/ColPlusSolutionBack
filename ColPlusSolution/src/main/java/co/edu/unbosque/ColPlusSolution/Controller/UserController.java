@@ -21,8 +21,8 @@ import co.edu.unbosque.ColPlusSolution.Model.User;
 import co.edu.unbosque.ColPlusSolution.Service.UserService;
 
 @RestController
-@RequestMapping("/user")
 @CrossOrigin(origins = { "http://localhost:8083", "http://localhost:8082", "*" })
+@RequestMapping("/user")
 public class UserController {
 
 	@Autowired
@@ -157,4 +157,3 @@ public class UserController {
 	}
 
 }
-

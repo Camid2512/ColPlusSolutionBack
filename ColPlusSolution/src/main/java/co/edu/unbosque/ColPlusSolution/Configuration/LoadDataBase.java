@@ -24,8 +24,7 @@ public class LoadDataBase {
 			if (found.isPresent()) {
 				log.info("Admin already exists,  skipping admin creating  ...");
 			} else {
-				userRepo.save(new User(1, AESUtil.encrypt("admin"), AESUtil.encrypt("bd1"),
-						AESUtil.encrypt("admin@admin.com"), 0));
+				userRepo.save(new User(1, "admin"	, AESUtil.encrypt("bd1"), AESUtil.encrypt("admin@admin.com"), 0));
 				log.info("Preloading admin user");
 			}
 		};
