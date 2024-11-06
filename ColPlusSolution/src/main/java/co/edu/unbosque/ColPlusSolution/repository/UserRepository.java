@@ -1,10 +1,10 @@
-package co.edu.unbosque.ColPlusSolution.Repository;
+package co.edu.unbosque.ColPlusSolution.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
-import co.edu.unbosque.ColPlusSolution.Model.User;
+import co.edu.unbosque.ColPlusSolution.model.User;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 

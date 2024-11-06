@@ -1,4 +1,4 @@
-package co.edu.unbosque.ColPlusSolution.Util;
+package co.edu.unbosque.ColPlusSolution.util;
 
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import static org.apache.commons.codec.binary.Base64.encodeBase64;

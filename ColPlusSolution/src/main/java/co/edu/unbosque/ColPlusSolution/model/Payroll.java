@@ -1,4 +1,4 @@
-package co.edu.unbosque.ColPlusSolution.Model;
+package co.edu.unbosque.ColPlusSolution.model;
 
 import jakarta.persistence.*;
 import java.util.Date;
@@ -7,50 +7,50 @@ import java.util.Date;
 @Table(name = "payroll")
 public class Payroll {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "code")
-    private Integer code;
+	@Id
+	@Column(name = "code")
+	private Integer code;
 
-    @Column(name = "employee_name")
-    private String employeeName;
+	@Column(name = "employee_name")
+	private String employeeName;
 
-    @Column(name = "department")
-    private String department;
+	@Column(name = "department")
+	private String department;
 
-    @Column(name = "position")
-    private String position;
+	@Column(name = "position")
+	private String position;
 
-    @Column(name = "hire_date")
-    private Date hireDate;
+	@Column(name = "hire_date")
+	private Date hireDate;
 
-    @Column(name = "health_insurance")
-    private String healthInsurance;
+	@Column(name = "health_insurance")
+	private String healthInsurance;
 
-    @Column(name = "occupational_risk_insurance")
-    private String occupationalRiskInsurance;
+	@Column(name = "occupational_risk_insurance")
+	private String occupationalRiskInsurance;
 
-    @Column(name = "pension")
-    private String pension;
+	@Column(name = "pension")
+	private String pension;
 
-    @Column(name = "salary")
-    private Double salary;
+	@Column(name = "salary")
+	private Double salary;
 
-    public Payroll() {
-    	// TODO Auto-generated constructor stub
-    }
+	public Payroll() {
+		// TODO Auto-generated constructor stub
+	}
 
-    public Payroll(Integer code, String employeeName, String department, String position, Date hireDate, String healthInsurance, String occupationalRiskInsurance, String pension, Double salary) {
-        this.code = code;
-        this.employeeName = employeeName;
-        this.department = department;
-        this.position = position;
-        this.hireDate = hireDate;
-        this.healthInsurance = healthInsurance;
-        this.occupationalRiskInsurance = occupationalRiskInsurance;
-        this.pension = pension;
-        this.salary = salary;
-    }
+	public Payroll(Integer code, String employeeName, String department, String position, Date hireDate,
+			String healthInsurance, String occupationalRiskInsurance, String pension, Double salary) {
+		this.code = code;
+		this.employeeName = employeeName;
+		this.department = department;
+		this.position = position;
+		this.hireDate = hireDate;
+		this.healthInsurance = healthInsurance;
+		this.occupationalRiskInsurance = occupationalRiskInsurance;
+		this.pension = pension;
+		this.salary = salary;
+	}
 
 	public Integer getCode() {
 		return code;
@@ -123,5 +123,5 @@ public class Payroll {
 	public void setSalary(Double salary) {
 		this.salary = salary;
 	}
-	
+
 }
