@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import co.edu.unbosque.ColPlusSolution.model.Payroll;
 import co.edu.unbosque.ColPlusSolution.service.PayrollService;
@@ -47,9 +48,15 @@ public class PayrollController {
 
 	}
 
-	@PostMapping(path = "/createexcel")
-	public ResponseEntity<String> createNewWithExcel() {
-		return new ResponseEntity<String>("VAMOS", HttpStatus.OK);
+	@PostMapping(path = "/createwithexcel", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<List<Payroll>> createWithExcel(@RequestParam("file") MultipartFile file) {
+		try {
+			List<Payroll> payrolls = payServ.saveFromExcel(file.getInputStream());
+			return new ResponseEntity<>(payrolls, HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@GetMapping("/getall")
