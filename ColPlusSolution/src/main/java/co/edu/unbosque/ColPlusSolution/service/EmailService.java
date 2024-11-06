@@ -1,4 +1,4 @@
-package co.edu.unbosque.ColPlusSolution.Service;
+package co.edu.unbosque.ColPlusSolution.service;
 
 import java.util.concurrent.ThreadLocalRandom;
 

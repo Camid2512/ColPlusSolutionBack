@@ -1,4 +1,4 @@
-package co.edu.unbosque.ColPlusSolution.Service;
+package co.edu.unbosque.ColPlusSolution.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.edu.unbosque.ColPlusSolution.Model.User;
-import co.edu.unbosque.ColPlusSolution.Repository.UserRepository;
+import co.edu.unbosque.ColPlusSolution.model.User;
+import co.edu.unbosque.ColPlusSolution.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -31,6 +31,7 @@ public class UserService {
 		if (findUsernameAlreadyTaken(newUser) || findEmailAlreadyTaken(newUser)) {
 			return 1;
 		} else {
+			newUser.setEmployee(null);
 			newUser.setUser(username);
 			newUser.setPassword(password);
 			newUser.setEmail(email);

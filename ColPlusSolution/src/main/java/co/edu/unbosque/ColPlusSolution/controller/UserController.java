@@ -1,4 +1,4 @@
-package co.edu.unbosque.ColPlusSolution.Controller;
+package co.edu.unbosque.ColPlusSolution.controller;
 
 import java.util.List;
 
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.edu.unbosque.ColPlusSolution.Model.User;
-import co.edu.unbosque.ColPlusSolution.Service.UserService;
+import co.edu.unbosque.ColPlusSolution.model.User;
+import co.edu.unbosque.ColPlusSolution.service.UserService;
 
 @RestController
 @CrossOrigin(origins = { "http://localhost:8083", "http://localhost:8082", "*" })
@@ -35,7 +35,7 @@ public class UserController {
 	@PostMapping(path = "/createjson", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> createNewWithJson(@RequestBody User newUser) {
 
-		System.out.println(newUser.toString());
+		System.out.println("CREANDO USUARIO");
 		int status = userServ.create(newUser);
 
 		if (status == 0) {
@@ -90,7 +90,7 @@ public class UserController {
 	@PutMapping(path = "/update")
 	ResponseEntity<String> updateNew(@RequestParam Integer id, @RequestParam String newUsername,
 			@RequestParam String newPassword, String newEmail, @RequestParam int newUser_type) {
-		User newUser = new User(id, newUsername, newPassword, newEmail, newUser_type);
+		User newUser = new User(id, null, newUsername, newPassword, newEmail, newUser_type);
 
 		int status = userServ.updateById(id, newUser);
 

@@ -1,4 +1,4 @@
-package co.edu.unbosque.ColPlusSolution.Model;
+package co.edu.unbosque.ColPlusSolution.model;
 
 import jakarta.persistence.*;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package co.edu.unbosque.ColPlusSolution.Model;
+package co.edu.unbosque.ColPlusSolution.model;
 
 import jakarta.persistence.*;
 import java.util.Date;
@@ -7,62 +7,71 @@ import java.util.Date;
 @Table(name = "leave_record")
 public class LeaveRecord {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_code")
-    private Integer employeeCode;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "leave_record_id")
+	private Integer employeeCode;
 
-    @Column(name = "on_vacation")
-    private Boolean onVacation;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "code", nullable = false, referencedColumnName = "code")
+	private Payroll employee;
 
-    @Column(name = "on_sick_leave")
-    private Boolean onSickLeave;
+	@Column(name = "on_vacation")
+	private Boolean onVacation;
 
-    @Column(name = "days_worked_this_month")
-    private Integer daysWorkedThisMonth;
+	@Column(name = "on_sick_leave")
+	private Boolean onSickLeave;
 
-    @Column(name = "sick_days")
-    private Integer sickDays;
+	@Column(name = "days_worked_this_month")
+	private Integer daysWorkedThisMonth;
 
-    @Column(name = "vacation_days")
-    private Integer vacationDays;
+	@Column(name = "sick_days")
+	private Integer sickDays;
 
-    @Column(name = "vacation_start_date")
-    private Date vacationStartDate;
+	@Column(name = "vacation_days")
+	private Integer vacationDays;
 
-    @Column(name = "vacation_end_date")
-    private Date vacationEndDate;
+	@Column(name = "vacation_start_date")
+	private Date vacationStartDate;
 
-    @Column(name = "sick_leave_start_date")
-    private Date sickLeaveStartDate;
+	@Column(name = "vacation_end_date")
+	private Date vacationEndDate;
 
-    @Column(name = "sick_leave_end_date")
-    private Date sickLeaveEndDate;
+	@Column(name = "sick_leave_start_date")
+	private Date sickLeaveStartDate;
 
-    @Column(name = "bonus")
-    private Double bonus;
+	@Column(name = "sick_leave_end_date")
+	private Date sickLeaveEndDate;
 
-    @Column(name = "transport_allowance")
-    private Double transportAllowance;
+	@Column(name = "bonus")
+	private Double bonus;
 
-    public LeaveRecord() {
-    	// TODO Auto-generated constructor stub
-    }
+	@Column(name = "transport_allowance")
+	private Double transportAllowance;
 
-    public LeaveRecord(Integer employeeCode, Boolean onVacation, Boolean onSickLeave, Integer daysWorkedThisMonth, Integer sickDays, Integer vacationDays, Date vacationStartDate, Date vacationEndDate, Date sickLeaveStartDate, Date sickLeaveEndDate, Double bonus, Double transportAllowance) {
-        this.employeeCode = employeeCode;
-        this.onVacation = onVacation;
-        this.onSickLeave = onSickLeave;
-        this.daysWorkedThisMonth = daysWorkedThisMonth;
-        this.sickDays = sickDays;
-        this.vacationDays = vacationDays;
-        this.vacationStartDate = vacationStartDate;
-        this.vacationEndDate = vacationEndDate;
-        this.sickLeaveStartDate = sickLeaveStartDate;
-        this.sickLeaveEndDate = sickLeaveEndDate;
-        this.bonus = bonus;
-        this.transportAllowance = transportAllowance;
-    }
+	public LeaveRecord() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public LeaveRecord(Integer employeeCode, Payroll employee, Boolean onVacation, Boolean onSickLeave,
+			Integer daysWorkedThisMonth, Integer sickDays, Integer vacationDays, Date vacationStartDate,
+			Date vacationEndDate, Date sickLeaveStartDate, Date sickLeaveEndDate, Double bonus,
+			Double transportAllowance) {
+		super();
+		this.employeeCode = employeeCode;
+		this.employee = employee;
+		this.onVacation = onVacation;
+		this.onSickLeave = onSickLeave;
+		this.daysWorkedThisMonth = daysWorkedThisMonth;
+		this.sickDays = sickDays;
+		this.vacationDays = vacationDays;
+		this.vacationStartDate = vacationStartDate;
+		this.vacationEndDate = vacationEndDate;
+		this.sickLeaveStartDate = sickLeaveStartDate;
+		this.sickLeaveEndDate = sickLeaveEndDate;
+		this.bonus = bonus;
+		this.transportAllowance = transportAllowance;
+	}
 
 	public Integer getEmployeeCode() {
 		return employeeCode;
@@ -78,6 +87,14 @@ public class LeaveRecord {
 
 	public void setOnVacation(Boolean onVacation) {
 		this.onVacation = onVacation;
+	}
+
+	public Payroll getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Payroll employee) {
+		this.employee = employee;
 	}
 
 	public Boolean getOnSickLeave() {

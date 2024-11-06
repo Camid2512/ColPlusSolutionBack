@@ -1,4 +1,4 @@
-package co.edu.unbosque.ColPlusSolution.Configuration;
+package co.edu.unbosque.ColPlusSolution.configuration;
 
 import java.util.Properties;
 

@@ -1,10 +1,13 @@
-package co.edu.unbosque.ColPlusSolution.Model;
+package co.edu.unbosque.ColPlusSolution.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,6 +18,11 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private Integer userId;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "code", nullable = false, referencedColumnName = "code")
+	private Payroll employee;
+
 	@Column(name = "user")
 	private String user;
 	@Column(name = "password")
@@ -28,9 +36,10 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(Integer userId, String user, String password, String email, int userType) {
+	public User(Integer userId, Payroll employee, String user, String password, String email, int userType) {
 		super();
 		this.userId = userId;
+		this.employee = employee;
 		this.user = user;
 		this.password = password;
 		this.email = email;
@@ -75,6 +84,14 @@ public class User {
 
 	public void setUserType(int userType) {
 		this.userType = userType;
+	}
+
+	public Payroll getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Payroll employee) {
+		this.employee = employee;
 	}
 
 }
