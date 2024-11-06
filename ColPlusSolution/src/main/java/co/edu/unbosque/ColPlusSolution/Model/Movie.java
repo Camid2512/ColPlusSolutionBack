@@ -7,24 +7,23 @@ import java.util.List;
 @Table(name = "movie")
 public class Movie {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "movie_id")
-    private Integer movieId;
+	@Id
+	@Column(name = "movie_id")
+	private Integer movieId;
 
-    @Column(name = "title")
-    private String title;
+	@Column(name = "title")
+	private String title;
 
-    @Column(name = "year")
-    private Integer year;
+	@Column(name = "year")
+	private Integer year;
 
-    @ElementCollection
-    @Column(name = "genre")
-    private List<String> genre;
+	@ElementCollection
+	@Column(name = "genre")
+	private List<String> genre;
 
-    public Movie() {
-    	// TODO Auto-generated constructor stub
-    }
+	public Movie() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Movie(Integer movieId, String title, Integer year, List<String> genre) {
 		super();
@@ -66,5 +65,4 @@ public class Movie {
 		this.genre = genre;
 	}
 
-    
 }

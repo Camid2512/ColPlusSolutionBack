@@ -8,51 +8,50 @@ import java.util.List;
 @Table(name = "book")
 public class Book {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "book_id")
-    private Integer bookId;
+	@Id
+	@Column(name = "book_id")
+	private Integer bookId;
 
-    @Column(name = "title")
-    private String title;
+	@Column(name = "title")
+	private String title;
 
-    @ElementCollection
-    @Column(name = "authors")
-    private List<String> authors;
+	@ElementCollection
+	@Column(name = "authors")
+	private List<String> authors;
 
-    @Column(name = "average_rating")
-    private Float averageRating;
+	@Column(name = "average_rating")
+	private Float averageRating;
 
-    @Column(name = "isbn")
-    private String isbn;
+	@Column(name = "isbn")
+	private String isbn;
 
-    @Column(name = "isbn13")
-    private String isbn13;
+	@Column(name = "isbn13")
+	private String isbn13;
 
-    @Column(name = "language_code")
-    private String languageCode;
+	@Column(name = "language_code")
+	private String languageCode;
 
-    @Column(name = "number_of_pages")
-    private Integer numberOfPages;
+	@Column(name = "number_of_pages")
+	private Integer numberOfPages;
 
-    @Column(name = "rating_count")
-    private Integer ratingCount;
+	@Column(name = "rating_count")
+	private Integer ratingCount;
 
-    @Column(name = "text_review_count")
-    private Integer textReviewCount;
+	@Column(name = "text_review_count")
+	private Integer textReviewCount;
 
-    @Column(name = "publication_date")
-    private Date publicationDate;
+	@Column(name = "publication_date")
+	private Date publicationDate;
 
-    @Column(name = "publisher")
-    private String publisher;
+	@Column(name = "publisher")
+	private String publisher;
 
-    @Column(name = "extra_field")
-    private String extraField;
+	@Column(name = "extra_field")
+	private String extraField;
 
-    public Book() {
-    	// TODO Auto-generated constructor stub
-    }
+	public Book() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Book(Integer bookId, String title, List<String> authors, Float averageRating, String isbn, String isbn13,
 			String languageCode, Integer numberOfPages, Integer ratingCount, Integer textReviewCount,
