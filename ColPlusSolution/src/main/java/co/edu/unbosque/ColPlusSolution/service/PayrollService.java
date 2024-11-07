@@ -4,8 +4,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import co.edu.unbosque.ColPlusSolution.model.Payroll;
 import co.edu.unbosque.ColPlusSolution.repository.PayrollRepository;
@@ -98,6 +104,66 @@ public class PayrollService {
 		} else {
 			return null;
 		}
+	}
+
+	public List<Payroll> saveFromExcel(InputStream file) {
+		List<Payroll> payrollList = new ArrayList<>();
+		try (Workbook workbook = new XSSFWorkbook(file)) {
+			Sheet sheet = workbook.getSheetAt(0);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+
+			for (Row row : sheet) {
+				if (row.getRowNum() == 0) {
+					continue;
+				}
+				Payroll payroll = new Payroll();
+
+				if (row.getCell(0).getCellType() == CellType.NUMERIC) {
+					payroll.setCode((int) row.getCell(0).getNumericCellValue());
+				}
+
+				if (row.getCell(1).getCellType() == CellType.STRING) {
+					payroll.setEmployeeName(row.getCell(1).getStringCellValue());
+				}
+
+				if (row.getCell(2).getCellType() == CellType.STRING) {
+					payroll.setDepartment(row.getCell(2).getStringCellValue());
+				}
+
+				if (row.getCell(3).getCellType() == CellType.STRING) {
+					payroll.setPosition(row.getCell(3).getStringCellValue());
+				}
+
+				if (row.getCell(4).getCellType() == CellType.NUMERIC) {
+					String dateStr = String.valueOf((long) row.getCell(4).getNumericCellValue());
+					payroll.setHireDate(dateFormat.parse(dateStr));
+				}
+
+				if (row.getCell(5).getCellType() == CellType.STRING) {
+					payroll.setHealthInsurance(row.getCell(5).getStringCellValue());
+				}
+
+				if (row.getCell(6).getCellType() == CellType.STRING) {
+					payroll.setOccupationalRiskInsurance(row.getCell(6).getStringCellValue());
+				}
+
+				if (row.getCell(7).getCellType() == CellType.STRING) {
+					payroll.setPension(row.getCell(7).getStringCellValue());
+				}
+
+				if (row.getCell(8).getCellType() == CellType.NUMERIC) {
+					payroll.setSalary(row.getCell(8).getNumericCellValue());
+				}
+
+				if (!payRep.existsById(payroll.getCode())) {
+					payRep.save(payroll);
+					payrollList.add(payroll);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return payrollList;
 	}
 
 }
