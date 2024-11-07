@@ -1,5 +1,6 @@
 package co.edu.unbosque.ColPlusSolution.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,41 +18,42 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import co.edu.unbosque.ColPlusSolution.model.Book;
 import co.edu.unbosque.ColPlusSolution.model.Movie;
-import co.edu.unbosque.ColPlusSolution.service.MovieService;
+import co.edu.unbosque.ColPlusSolution.service.BookService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @CrossOrigin(origins = { "http://localhost:8083", "http://localhost:8082", "*" })
-@RequestMapping("/movie")
-public class MovieController {
+@RequestMapping("/book")
+public class BookController {
 
 	@Autowired
-	private MovieService movServ;
+	private BookService bokServ;
 
-	public MovieController() {
+	public BookController() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@PostMapping(path = "/createjson", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> createNewWithJson(@RequestBody Movie newMovie) {
+	public ResponseEntity<String> createNewWithJson(@RequestBody Book newBook) {
 
 		System.out.println("CREANDO EMPLEADO");
-		int status = movServ.create(newMovie);
+		int status = bokServ.create(newBook);
 
 		if (status == 0) {
-			return new ResponseEntity<String>("Movie added successfully", HttpStatus.CREATED);
+			return new ResponseEntity<String>("Book added successfully", HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<String>("Error adding a movie, check id", HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<String>("Error adding a book, check id", HttpStatus.NOT_ACCEPTABLE);
 		}
 
 	}
 
-	@PostMapping(path = "/createwithdat", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<List<Movie>> createWithDat(@RequestParam("file") MultipartFile file) {
+	@PostMapping(path = "/createwithjson", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<List<Book>> createWithJson(@RequestParam("file") MultipartFile file) {
 		try {
-			List<Movie> movies = movServ.saveFromDat(file.getInputStream());
-			return new ResponseEntity<>(movies, HttpStatus.CREATED);
+			List<Book> books = bokServ.saveFromJson(file.getInputStream());
+			return new ResponseEntity<>(books, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -59,15 +61,15 @@ public class MovieController {
 	}
 
 	@GetMapping("/getall")
-	public ResponseEntity<List<Movie>> getAll() {
+	public ResponseEntity<List<Book>> getAll() {
 
 		try {
 
-			List<Movie> movies = movServ.getAll();
-			if (movies.isEmpty()) {
-				return new ResponseEntity<>(movies, HttpStatus.NO_CONTENT);
+			List<Book> books = bokServ.getAll();
+			if (books.isEmpty()) {
+				return new ResponseEntity<>(books, HttpStatus.NO_CONTENT);
 			} else {
-				return new ResponseEntity<>(movies, HttpStatus.ACCEPTED);
+				return new ResponseEntity<>(books, HttpStatus.ACCEPTED);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -78,7 +80,7 @@ public class MovieController {
 	@GetMapping("/count")
 	public ResponseEntity<Long> countAll() {
 
-		Long count = movServ.count();
+		Long count = bokServ.count();
 		if (count == 0) {
 
 			return new ResponseEntity<>(count, HttpStatus.NO_CONTENT);
@@ -89,8 +91,8 @@ public class MovieController {
 	}
 
 	@GetMapping("/getbyid/{id}")
-	public ResponseEntity<Movie> getById(@PathVariable Integer id) {
-		Movie found = movServ.getById(id);
+	public ResponseEntity<Book> getById(@PathVariable Integer id) {
+		Book found = bokServ.getById(id);
 		if (found != null) {
 			return new ResponseEntity<>(found, HttpStatus.ACCEPTED);
 		} else {
@@ -99,15 +101,19 @@ public class MovieController {
 	}
 
 	@PutMapping(path = "/update")
-	ResponseEntity<String> updateNew(@RequestParam Integer movieId, @RequestParam String title,
-			@RequestParam Integer year, List<String> genre) {
-		Movie newMovie = new Movie(movieId, title, year, genre);
-		int status = movServ.updateById(movieId, newMovie);
+	ResponseEntity<String> updateNew(@RequestParam Integer bookId, @RequestParam String title,
+			@RequestParam List<String> authors, @RequestParam Float avgRating, @RequestParam String isbn,
+			@RequestParam String isbn13, @RequestParam String languageCode, @RequestParam Integer ratingCount,
+			@RequestParam Integer textReviewCount, @RequestParam Date publicationDate, @RequestParam String publisher,
+			@RequestParam String extraField) {
+		Book newBook = new Book(bookId, title, authors, avgRating, isbn, isbn13, languageCode, bookId, ratingCount,
+				textReviewCount, publicationDate, publisher, extraField);
+		int status = bokServ.updateById(bookId, newBook);
 
 		if (status == 0) {
-			return new ResponseEntity<>("Movie data updated succesfully", HttpStatus.ACCEPTED);
+			return new ResponseEntity<>("Book data updated succesfully", HttpStatus.ACCEPTED);
 		} else if (status == 1) {
-			return new ResponseEntity<>("Movie not found", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Book not found", HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>("Error on update", HttpStatus.BAD_REQUEST);
 		}
@@ -115,12 +121,13 @@ public class MovieController {
 
 	@DeleteMapping("/deletebyid/{id}")
 	ResponseEntity<String> deleteById(@PathVariable Integer id) {
-		int status = movServ.deleteById(id);
+		int status = bokServ.deleteById(id);
 
 		if (status == 0) {
-			return new ResponseEntity<>("Movie deleted successfully", HttpStatus.ACCEPTED);
+			return new ResponseEntity<>("Book deleted successfully", HttpStatus.ACCEPTED);
 		} else {
 			return new ResponseEntity<>("Error on delete", HttpStatus.NOT_FOUND);
 		}
 	}
+
 }
