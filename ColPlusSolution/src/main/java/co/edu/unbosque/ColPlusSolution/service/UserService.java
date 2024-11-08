@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.unbosque.ColPlusSolution.model.Payroll;
 import co.edu.unbosque.ColPlusSolution.model.User;
+import co.edu.unbosque.ColPlusSolution.repository.PayrollRepository;
 import co.edu.unbosque.ColPlusSolution.repository.UserRepository;
 
 @Service
@@ -14,6 +16,9 @@ public class UserService {
 	private String codeTemp = "";
 	@Autowired
 	private UserRepository userRep;
+	
+	@Autowired
+	private PayrollRepository payRep;
 
 	@Autowired
 	private EmailService emailService;
@@ -25,20 +30,31 @@ public class UserService {
 	public int create(User newUser) {
 
 		String username = newUser.getUser();
-		String password = newUser.getPassword();
-		String email = newUser.getEmail();
-		int user_type = newUser.getUserType();
-		if (findUsernameAlreadyTaken(newUser) || findEmailAlreadyTaken(newUser)) {
-			return 1;
-		} else {
-			newUser.setEmployee(null);
-			newUser.setUser(username);
-			newUser.setPassword(password);
-			newUser.setEmail(email);
-			newUser.setUserType(user_type);
-			emailService.sendWelcomeEmail(email);
-			userRep.save(newUser);
-			return 0;
+        String password = newUser.getPassword();
+        String email = newUser.getEmail();
+        int user_type = newUser.getUserType();
+
+        if (findUsernameAlreadyTaken(newUser) || findEmailAlreadyTaken(newUser)) {
+            return 1;
+        } else {
+            Integer payrollCode = newUser.getEmployee().getCode();
+            Optional<Payroll> payroll = payRep.findById(payrollCode);
+            
+            if (payroll.isPresent()) {
+                newUser.setEmployee(payroll.get());
+            } else {
+                return 1; 
+            }
+
+            newUser.setUser(username);
+            newUser.setPassword(password);
+            newUser.setEmail(email);
+            newUser.setUserType(user_type);
+            
+            // Enviar email de bienvenida y guardar el nuevo usuario
+            emailService.sendWelcomeEmail(email);
+            userRep.save(newUser);
+            return 0;
 		}
 	}
 
