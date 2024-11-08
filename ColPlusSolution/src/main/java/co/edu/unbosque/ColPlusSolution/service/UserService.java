@@ -16,7 +16,7 @@ public class UserService {
 	private String codeTemp = "";
 	@Autowired
 	private UserRepository userRep;
-	
+
 	@Autowired
 	private PayrollRepository payRep;
 
@@ -30,31 +30,31 @@ public class UserService {
 	public int create(User newUser) {
 
 		String username = newUser.getUser();
-        String password = newUser.getPassword();
-        String email = newUser.getEmail();
-        int user_type = newUser.getUserType();
+		String password = newUser.getPassword();
+		String email = newUser.getEmail();
+		int user_type = newUser.getUserType();
 
-        if (findUsernameAlreadyTaken(newUser) || findEmailAlreadyTaken(newUser)) {
-            return 1;
-        } else {
-            Integer payrollCode = newUser.getEmployee().getCode();
-            Optional<Payroll> payroll = payRep.findById(payrollCode);
-            
-            if (payroll.isPresent()) {
-                newUser.setEmployee(payroll.get());
-            } else {
-                return 1; 
-            }
+		if (findUsernameAlreadyTaken(newUser) || findEmailAlreadyTaken(newUser)) {
+			return 1;
+		} else {
+			Integer payrollCode = newUser.getEmployee().getCode();
+			Optional<Payroll> payroll = payRep.findById(payrollCode);
 
-            newUser.setUser(username);
-            newUser.setPassword(password);
-            newUser.setEmail(email);
-            newUser.setUserType(user_type);
-            
-            // Enviar email de bienvenida y guardar el nuevo usuario
-            emailService.sendWelcomeEmail(email);
-            userRep.save(newUser);
-            return 0;
+			if (payroll.isPresent()) {
+				newUser.setEmployee(payroll.get());
+			} else {
+				return 1;
+			}
+
+			newUser.setUser(username);
+			newUser.setPassword(password);
+			newUser.setEmail(email);
+			newUser.setUserType(user_type);
+
+			// Enviar email de bienvenida y guardar el nuevo usuario
+			emailService.sendWelcomeEmail(email);
+			userRep.save(newUser);
+			return 0;
 		}
 	}
 
@@ -164,7 +164,7 @@ public class UserService {
 
 				User temp = found.get();
 				temp.setUser(found.get().getUser());
-				temp.setPassword(found.get().getPassword());
+				temp.setPassword(newPass);
 				temp.setEmail(found.get().getEmail());
 				userRep.save(temp);
 				emailService.changedPassword(email, newPass);

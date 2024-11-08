@@ -141,8 +141,6 @@ public class UserController {
 	@PostMapping(path = "/logincheck", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<String> checkLogin(@RequestBody User userCheck) {
 
-		//User found = userServ.getByUsername(userCheck.getUser());
-
 		int status = userServ.loginValidation(userCheck.getUser(), userCheck.getPassword(), userCheck.getUserType());
 		if (status == 0) {
 
