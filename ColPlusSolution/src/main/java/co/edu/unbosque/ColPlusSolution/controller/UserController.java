@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unbosque.ColPlusSolution.model.User;
 import co.edu.unbosque.ColPlusSolution.model.Payroll;
+import co.edu.unbosque.ColPlusSolution.service.LoginRecordService;
 import co.edu.unbosque.ColPlusSolution.service.PayrollService;
 import co.edu.unbosque.ColPlusSolution.service.UserService;
 
@@ -29,18 +31,22 @@ public class UserController {
 
 	@Autowired
 	private UserService userServ;
-	
+
 	@Autowired
 	private PayrollService payServ;
+
+	@Autowired
+	private LoginRecordService logRecServ;
 
 	public UserController() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@PostMapping(path = "/create")
-	ResponseEntity<String> create(@RequestParam Integer id, @RequestParam Integer code, @RequestParam String newUsername,
-			@RequestParam String newPassword, @RequestParam String newEmail, @RequestParam int newUser_type) {
-		
+	ResponseEntity<String> create(@RequestParam Integer id, @RequestParam Integer code,
+			@RequestParam String newUsername, @RequestParam String newPassword, @RequestParam String newEmail,
+			@RequestParam int newUser_type) {
+
 		Payroll thisPayroll = payServ.getById(code);
 		User newUser = new User(id, thisPayroll, newUsername, newPassword, newEmail, newUser_type);
 
@@ -69,20 +75,20 @@ public class UserController {
 		}
 
 	}
-	
+
 	@PostMapping("/loginvalidation")
 	public ResponseEntity<String> loginValidation(@RequestParam String username, @RequestParam String password) {
-	    int status = userServ.loginValidation(username, password, 0); // Aquí puedes hacer el ajuste necesario para determinar el tipo de usuario
+		int status = userServ.loginValidation(username, password, 0); // Aquí puedes hacer el ajuste necesario para
+																		// determinar el tipo de usuario
 
-	    if (status == 0) {
-	        return new ResponseEntity<>("Welcome boss", HttpStatus.OK); // Jefe
-	    } else if (status == 1) {
-	        return new ResponseEntity<>("Welcome employee", HttpStatus.OK); // Empleado
-	    } else {
-	        return new ResponseEntity<>("User/Password incorrect", HttpStatus.UNAUTHORIZED);
-	    }
+		if (status == 0) {
+			return new ResponseEntity<>("Welcome boss", HttpStatus.OK); // Jefe
+		} else if (status == 1) {
+			return new ResponseEntity<>("Welcome employee", HttpStatus.OK); // Empleado
+		} else {
+			return new ResponseEntity<>("User/Password incorrect", HttpStatus.UNAUTHORIZED);
+		}
 	}
-
 
 	@GetMapping("/getall")
 	public ResponseEntity<List<User>> getAll() {
@@ -180,15 +186,22 @@ public class UserController {
 
 		int status = userServ.loginValidation(userCheck.getUser(), userCheck.getPassword(), userCheck.getUserType());
 		if (status == 0) {
+			int statusSession = logRecServ.createLoginRecord(userCheck);
+			if (statusSession == 0) {
 
-			return new ResponseEntity<>("Welcome boss", HttpStatus.ACCEPTED);
+				return new ResponseEntity<>("Welcome boss", HttpStatus.ACCEPTED);
+			}
 
 		} else if (status == 1) {
-			return new ResponseEntity<>("Welcome employee", HttpStatus.ACCEPTED);
+			int statusSession = logRecServ.createLoginRecord(userCheck);
+			if (statusSession == 0) {
+
+				return new ResponseEntity<>("Welcome employee", HttpStatus.ACCEPTED);
+			}
 		} else {
 			return new ResponseEntity<>("User/Password incorrect", HttpStatus.NOT_ACCEPTABLE);
 		}
-
+		return new ResponseEntity<String>("ERROR CONTACT ADMIN", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 }
