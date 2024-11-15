@@ -3,6 +3,10 @@ package co.edu.unbosque.ColPlusSolution.controller;
 import java.util.Date;
 import java.util.List;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,6 +37,35 @@ public class PayrollController {
 	public PayrollController() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	@PostMapping(path = "/create")
+	ResponseEntity<String> create(@RequestParam Integer code, @RequestParam String employeeName,
+	        @RequestParam String department, @RequestParam String position, @RequestParam String hireDate,
+	        @RequestParam String healthInsurance, @RequestParam String occupationalRiskInsurance,
+	        @RequestParam String pension, @RequestParam Double salary) {
+	    
+	    // Convertir el String `hireDate` a `Date`
+	    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    Date parsedHireDate;
+	    try {
+	        parsedHireDate = dateFormat.parse(hireDate);
+	    } catch (ParseException e) {
+	        return new ResponseEntity<>("Error parsing hireDate", HttpStatus.BAD_REQUEST);
+	    }
+
+	    Payroll newPayroll = new Payroll(code, employeeName, department, position, parsedHireDate, healthInsurance,
+	            occupationalRiskInsurance, pension, salary);
+
+	    System.out.println("CREANDO EMPLEADO");
+	    int status = payServ.create(newPayroll);
+
+	    if (status == 0) {
+	        return new ResponseEntity<>("Employee added successfully", HttpStatus.CREATED);
+	    } else {
+	        return new ResponseEntity<>("Error adding an employee, check code", HttpStatus.NOT_ACCEPTABLE);
+	    }
+	}
+
 
 	@PostMapping(path = "/createjson", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> createNewWithJson(@RequestBody Payroll newPayroll) {
@@ -101,10 +134,20 @@ public class PayrollController {
 
 	@PutMapping(path = "/update")
 	ResponseEntity<String> updateNew(@RequestParam Integer code, @RequestParam String employeeName,
-			@RequestParam String department, String position, @RequestParam Date hireDate,
+			@RequestParam String department, String position, @RequestParam String hireDate,
 			@RequestParam String healthInsurance, @RequestParam String occupationalRiskInsurance,
 			@RequestParam String pension, @RequestParam Double salary) {
-		Payroll newPayroll = new Payroll(code, employeeName, department, position, hireDate, healthInsurance,
+		
+		// Convertir el String `hireDate` a `Date`
+	    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    Date parsedHireDate;
+	    try {
+	        parsedHireDate = dateFormat.parse(hireDate);
+	    } catch (ParseException e) {
+	        return new ResponseEntity<>("Error parsing hireDate", HttpStatus.BAD_REQUEST);
+	    }
+	    
+		Payroll newPayroll = new Payroll(code, employeeName, department, position, parsedHireDate, healthInsurance,
 				occupationalRiskInsurance, pension, salary);
 
 		int status = payServ.updateById(code, newPayroll);
