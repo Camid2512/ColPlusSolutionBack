@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -80,14 +79,24 @@ public class UserController {
 	public ResponseEntity<String> loginValidation(@RequestParam String username, @RequestParam String password) {
 		int status = userServ.loginValidation(username, password, 0); // Aquí puedes hacer el ajuste necesario para
 																		// determinar el tipo de usuario
-
+		User userCheck = userServ.getByUsername(username);
 		if (status == 0) {
-			return new ResponseEntity<>("Welcome boss", HttpStatus.OK); // Jefe
+			int statusSession = logRecServ.createLoginRecord(userCheck);
+			if (statusSession == 0) {
+
+				return new ResponseEntity<>("Welcome boss", HttpStatus.OK);
+			}
+
 		} else if (status == 1) {
-			return new ResponseEntity<>("Welcome employee", HttpStatus.OK); // Empleado
+			int statusSession = logRecServ.createLoginRecord(userCheck);
+			if (statusSession == 0) {
+
+				return new ResponseEntity<>("Welcome employee", HttpStatus.OK);
+			}
 		} else {
 			return new ResponseEntity<>("User/Password incorrect", HttpStatus.UNAUTHORIZED);
 		}
+		return new ResponseEntity<String>("ERROR CONTACT ADMIN", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@GetMapping("/getall")
