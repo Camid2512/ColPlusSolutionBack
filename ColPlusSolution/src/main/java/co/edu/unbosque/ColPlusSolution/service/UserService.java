@@ -51,7 +51,6 @@ public class UserService {
 			newUser.setEmail(email);
 			newUser.setUserType(user_type);
 
-			// Enviar email de bienvenida y guardar el nuevo usuario
 			emailService.sendWelcomeEmail(email);
 			userRep.save(newUser);
 			return 0;
