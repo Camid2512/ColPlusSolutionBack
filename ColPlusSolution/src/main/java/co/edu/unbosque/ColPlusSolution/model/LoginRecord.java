@@ -7,30 +7,26 @@ import java.util.Date;
 @Table(name = "login_record")
 public class LoginRecord {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "record_id")
-    private Integer recordId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "record_id")
+	private Integer recordId;
 
-    @Column(name = "date")
-    private Date date;
+	@Column(name = "date")
+	private Date date;
 
-    @Column(name = "time")
-    private Date time;
+	@Column(name = "user")
+	private String user;
 
-    @Column(name = "user")
-    private String user;
+	public LoginRecord() {
+		// TODO Auto-generated constructor stub
+	}
 
-    public LoginRecord() {
-    	// TODO Auto-generated constructor stub
-    }
-
-    public LoginRecord(Integer recordId, Date date, Date time, String user) {
-        this.recordId = recordId;
-        this.date = date;
-        this.time = time;
-        this.user = user;
-    }
+	public LoginRecord(Integer recordId, Date date, String user) {
+		this.recordId = recordId;
+		this.date = date;
+		this.user = user;
+	}
 
 	public Integer getRecordId() {
 		return recordId;
@@ -48,14 +44,6 @@ public class LoginRecord {
 		this.date = date;
 	}
 
-	public Date getTime() {
-		return time;
-	}
-
-	public void setTime(Date time) {
-		this.time = time;
-	}
-
 	public String getUser() {
 		return user;
 	}
@@ -63,5 +51,5 @@ public class LoginRecord {
 	public void setUser(String user) {
 		this.user = user;
 	}
-	
+
 }
