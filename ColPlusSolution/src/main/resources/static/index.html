@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EntreCol+</title>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Incluye la biblioteca de Google reCAPTCHA -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+  <h1>Bienvenido a EntreCol+</h1>
+  <img src="img/logo.png" alt="Logo" class="logo">
+
+  <!-- LOGIN MODULE -->
+  <div class="login">
+    <div class="wrap">
+
+      <!-- RECOVERY -->
+      <div class="recovery">
+        <h2>Password Recovery</h2>
+        <p>Enter either the <strong>email address</strong> or <strong>username</strong> on the account and <strong>click Submit</strong></p>
+        <p>We'll email instructions on how to reset your password.</p>
+        <form class="recovery-form" action="" method="post">
+          <input type="text" class="input" id="user_recover" placeholder="Enter Email or Username Here">
+          <input type="submit" class="button" value="Submit">
+        </form>
+        <p class="mssg">An email has been sent to you with further instructions.</p>
+      </div>
+
+      <!-- SLIDER -->
+      <div class="content">
+        <div id="slideshow">
+          <div class="one">
+            <h2><span>EntreCol+</span></h2>
+            <p>Inicie sesión para trabajar!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div class="user" id="login">
+        <div class="form-wrap">
+          <!-- TABS -->
+          <div class="tabs">
+            <h3 class="login-tab"><a class="log-in active" href="#login-tab-content">Login</a></h3>
+          </div>
+
+          <!-- TABS CONTENT -->
+          <div class="tabs-content">
+            <div id="login-tab-content" class="active">
+              <form id="login-form" action="" method="post">
+                <input type="text" class="input" id="user_login" autocomplete="off" placeholder="Email or Username">
+                <input type="password" class="input" id="user_pass" autocomplete="off" placeholder="Password">
+                
+                <!-- Agrega el CAPTCHA aquí -->
+                <div class="g-recaptcha" data-sitekey="6LeBrH8qAAAAANQxm39JcaxFEI7zWaCV41nQHxBd"></div>
+                
+                <input type="submit" id="login-button" class="button" value="Login">
+              </form>
+              <div id="message" style="color: white;"></div> <!-- Mensaje de error -->
+              <div class="help-action">
+                <p><a class="forgot" href="#">Forgot your password?</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Incluye jQuery y Axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="loginX.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+/*movies*/
+
+:root {
+    --color1: #708ed2;
+    --color2: #272532;
+    --color3: #ebe5e2;
+    --color4: #83cfdf;
+    --color5: #13688c;
+    --color6: #373b69;
+  }
+  
+  html,
+  body {
+    height: 100%;
+  }
+  
+  body {
+    background: var(--color6) !important;
+  }
+  
+  nav {
+    background: #6065ac;
+  }
+  nav a {
+    color: #ebe5e2;
+    font-size: 2.5rem !important;
+  }
+  
+  .movie-card {
+    padding: 10px;
+  }
+  .movie-description {
+    background: var(--color5);
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+  .movie-title {
+    color: var(--color3);
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  .movie-vote {
+    background: var(--color2);
+    color: orange;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+  .movie-img {
+    border-radius: 0.5rem 0.5rem 0 0;
+    overflow: hidden;
+    max-height: 100% !important;
+  }
+  
