@@ -49,6 +49,7 @@ public class PayrollService {
 			newPayroll.setOccupationalRiskInsurance(occupationalRiskInsurance);
 			newPayroll.setPension(pension);
 			newPayroll.setSalary(salary);
+			payRep.save(newPayroll);
 			return 0;
 
 		}
@@ -87,6 +88,7 @@ public class PayrollService {
 			temp.setOccupationalRiskInsurance(newPayroll.getOccupationalRiskInsurance());
 			temp.setPension(newPayroll.getPension());
 			temp.setSalary(newPayroll.getSalary());
+			payRep.save(temp);
 			return 0;
 
 		}

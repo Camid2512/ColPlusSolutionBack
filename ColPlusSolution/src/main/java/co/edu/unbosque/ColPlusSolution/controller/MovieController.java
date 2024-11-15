@@ -32,6 +32,20 @@ public class MovieController {
 	public MovieController() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	@PostMapping(path = "/create")
+	ResponseEntity<String> create(@RequestParam Integer movieId, @RequestParam String title,
+			@RequestParam Integer year, List<String> genre) {
+		Movie newMovie = new Movie(movieId, title, year, genre);
+		System.out.println("CREANDO EMPLEADO");
+		int status = movServ.create(newMovie);
+
+		if (status == 0) {
+			return new ResponseEntity<String>("Movie added successfully", HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<String>("Error adding a movie, check id", HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
 
 	@PostMapping(path = "/createjson", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> createNewWithJson(@RequestBody Movie newMovie) {
