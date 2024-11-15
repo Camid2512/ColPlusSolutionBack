@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.edu.unbosque.ColPlusSolution.model.Book;
-import co.edu.unbosque.ColPlusSolution.model.Movie;
 import co.edu.unbosque.ColPlusSolution.service.BookService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -33,6 +32,24 @@ public class BookController {
 
 	public BookController() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	@PostMapping(path = "/create")
+	ResponseEntity<String> create(@RequestParam Integer bookId, @RequestParam String title,
+			@RequestParam List<String> authors, @RequestParam Float avgRating, @RequestParam String isbn,
+			@RequestParam String isbn13, @RequestParam String languageCode, @RequestParam Integer ratingCount,
+			@RequestParam Integer textReviewCount, @RequestParam Date publicationDate, @RequestParam String publisher,
+			@RequestParam String extraField) {
+		Book newBook = new Book(bookId, title, authors, avgRating, isbn, isbn13, languageCode, bookId, ratingCount,
+				textReviewCount, publicationDate, publisher, extraField);
+		System.out.println("CREANDO EMPLEADO");
+		int status = bokServ.create(newBook);
+
+		if (status == 0) {
+			return new ResponseEntity<String>("Book added successfully", HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<String>("Error adding a book, check id", HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 
 	@PostMapping(path = "/createjson", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
